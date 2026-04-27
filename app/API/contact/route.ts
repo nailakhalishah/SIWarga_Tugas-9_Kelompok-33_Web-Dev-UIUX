@@ -12,7 +12,6 @@ export async function POST(request: Request) {
     );
   }
 
-  // simulasi simpan data (bisa nanti ke database)
   console.log("DATA MASUK:", body);
 
   return NextResponse.json({

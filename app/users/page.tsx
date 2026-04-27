@@ -8,7 +8,6 @@ export default function UsersPage() {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // 🔥 ambil data API publik
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
@@ -18,7 +17,6 @@ export default function UsersPage() {
       });
   }, []);
 
-  // 🔍 filter
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(search.toLowerCase())
   );

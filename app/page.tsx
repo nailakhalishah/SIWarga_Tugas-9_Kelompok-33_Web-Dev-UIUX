@@ -2,20 +2,17 @@ export default function Home() {
   return (
     <main>
 
-      {/* HERO */}
       <section className="hero">
         <div className="blur-circle one"></div>
         <div className="blur-circle two"></div>
 
         <div className="container hero-container">
 
-          {/* IMAGE */}
           <div className="hero-image">
             <img src="/asset/hero.png" alt="hero" />
           </div>
 
-          {/* TEXT */}
-          <div className="hero-text">
+=          <div className="hero-text">
             <h2>
               Kelola Iuran Warga <br />
               <span>Lebih Mudah</span>
@@ -39,15 +36,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section className="features">
+=      <section className="features">
         <div className="container">
           <h2 className="section-title">Fitur Unggulan</h2>
 
           <div className="feature-container">
 
-            {/* CARD 1 */}
-            <div className="card">
+=            <div className="card">
               <div className="icon">
                 <img src="/asset/kebersihan.png" alt="kebersihan" />
               </div>
@@ -55,7 +50,6 @@ export default function Home() {
               <p>Iuran kebersihan lebih praktis dan otomatis tercatat.</p>
             </div>
 
-            {/* CARD 2 */}
             <div className="card">
               <div className="icon">
                 <img src="/asset/kematian.png" alt="kematian" />
@@ -64,7 +58,6 @@ export default function Home() {
               <p>Pengelolaan iuran transparan dan mudah dilacak.</p>
             </div>
 
-            {/* CARD 3 */}
             <div className="card">
               <div className="icon">
                 <img src="/asset/kas.png" alt="kas" />
@@ -77,7 +70,6 @@ export default function Home() {
         </div>
       </section>
 
-{/* TESTIMONIAL */}
       <section className="testimonial">
         <div className="container">
 
@@ -112,7 +104,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ABOUT */}
       <section className="about">
         <div className="container">
           <h2 className="section-title">Tentang SIWarga</h2>
@@ -125,7 +116,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="cta">
         <div className="container">
           <h2>

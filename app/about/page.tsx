@@ -8,7 +8,6 @@ export default function About() {
       <div className="container">
         <div className="about-grid">
 
-          {/* Left */}
           <div className="about-content">
 
             <span className="about-badge">
@@ -52,7 +51,6 @@ export default function About() {
           </div>
 
 
-          {/* Right */}
           <div className="about-card-wrap">
 
             <div className="about-card">
