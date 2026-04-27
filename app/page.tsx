@@ -12,7 +12,7 @@ export default function Home() {
             <img src="/asset/hero.png" alt="hero" />
           </div>
 
-=          <div className="hero-text">
+          <div className="hero-text">
             <h2>
               Kelola Iuran Warga <br />
               <span>Lebih Mudah</span>
@@ -36,13 +36,13 @@ export default function Home() {
         </div>
       </section>
 
-=      <section className="features">
+      <section className="features">
         <div className="container">
           <h2 className="section-title">Fitur Unggulan</h2>
 
           <div className="feature-container">
 
-=            <div className="card">
+            <div className="card">
               <div className="icon">
                 <img src="/asset/kebersihan.png" alt="kebersihan" />
               </div>
