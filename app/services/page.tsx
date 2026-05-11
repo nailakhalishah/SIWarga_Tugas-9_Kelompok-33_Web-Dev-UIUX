@@ -64,8 +64,6 @@ export default function Services() {
             </p>
           </div>
 
-
-
           <div className="service-box">
 
             <div className="service-image">

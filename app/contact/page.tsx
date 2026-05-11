@@ -44,7 +44,6 @@ export default function Contact() {
 
         <div className="contact-heading">
           <h2>Hubungi Kami</h2>
-          <p>Kirim pesan langsung ke sistem SIWarga</p>
         </div>
 
         <div className="contact-form-box">
@@ -87,7 +86,6 @@ export default function Contact() {
               Kirim Pesan
             </button>
 
-            {/* 🔥 status */}
             {status && <p style={{ marginTop: 10 }}>{status}</p>}
 
           </form>

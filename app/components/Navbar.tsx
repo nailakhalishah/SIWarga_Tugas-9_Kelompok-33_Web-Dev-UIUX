@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const pathname = usePathname();
 
-  const isActive = (path:string) =>
+  const isActive = (path: string) =>
     pathname === path ? "active" : "";
 
   return (
@@ -14,7 +14,7 @@ export default function Navbar() {
       <div className="container nav-wrapper">
 
         <Link href="/" className="logo">
-          <img src="/asset/logo.png" alt="SIWarga Logo"/>
+          <img src="/asset/logo.png" alt="SIWarga Logo" />
         </Link>
 
         <nav>
@@ -29,7 +29,7 @@ export default function Navbar() {
           <Link href="/services" className={isActive("/services")}>
             Services
           </Link>
-
+          
           <Link href="/contact" className={isActive("/contact")}>
             Contact
           </Link>
@@ -37,6 +37,7 @@ export default function Navbar() {
           <Link href="/users" className={isActive("/users")}>
             Users
           </Link>
+
         </nav>
 
       </div>

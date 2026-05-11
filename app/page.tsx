@@ -9,7 +9,7 @@ export default function Home() {
         <div className="container hero-container">
 
           <div className="hero-image">
-            <img src="/asset/hero.png" alt="hero" />
+            <img src="/asset/Hero.png" alt="hero" />
           </div>
 
           <div className="hero-text">
@@ -24,7 +24,7 @@ export default function Home() {
             </p>
 
             <div className="hero-btn">
-              <a href="/services" className="btn-primary">
+              <a href="/login" className="btn-primary">
                 Mulai Sekarang
               </a>
               <a href="/about" className="btn-secondary">
