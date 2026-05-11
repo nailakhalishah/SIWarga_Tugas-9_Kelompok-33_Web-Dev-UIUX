@@ -9,7 +9,7 @@ export default function Home() {
         <div className="container hero-container">
 
           <div className="hero-image">
-            <img src="/asset/Hero.png" alt="hero" />
+            <img src="/asset/hero.png" alt="hero" />
           </div>
 
           <div className="hero-text">
