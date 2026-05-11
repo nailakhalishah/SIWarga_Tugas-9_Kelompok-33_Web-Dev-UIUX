@@ -1,3 +1,7 @@
+export default function DataPage() {
+  return <div>Halaman Data</div>;
+}
+
 [
   {
     "id": 1,
