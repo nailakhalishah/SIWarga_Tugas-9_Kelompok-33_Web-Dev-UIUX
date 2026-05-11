@@ -1,7 +1,12 @@
 "use client";
 
 import {
-  useEffect, useState, useOptimistic, startTransition} from "react";
+  useEffect,
+  useState,
+  useOptimistic,
+  startTransition,
+  Suspense,
+} from "react";
 
 import { supabase } from "@/lib/supabase";
 
@@ -37,7 +42,7 @@ const paymentSchema = z.object({
   ),
 });
 
-export default function Payments() {
+function PaymentsContent() {
 
   const [loading, setLoading] =
     useState(false);
@@ -334,7 +339,6 @@ export default function Payments() {
               }
             >
 
-              {/* NAMA */}
               <input
                 name="nama"
                 type="text"
@@ -377,7 +381,6 @@ export default function Payments() {
                 </p>
               )}
 
-              {/* JENIS */}
               <select
                 name="jenis"
                 required
@@ -401,7 +404,6 @@ export default function Payments() {
 
               </select>
 
-              {/* NOMINAL */}
               <input
                 name="nominal"
                 type="number"
@@ -409,7 +411,6 @@ export default function Payments() {
                 required
               />
 
-              {/* METODE */}
               <select
                 required
                 value={method}
@@ -437,7 +438,6 @@ export default function Payments() {
 
               </select>
 
-              {/* QRIS */}
               {method ===
                 "Qris" && (
 
@@ -459,7 +459,6 @@ export default function Payments() {
                 </div>
               )}
 
-              {/* BANK */}
               {method ===
                 "Transfer Bank" && (
 
@@ -502,13 +501,11 @@ export default function Payments() {
                 </div>
               )}
 
-              {/* CATATAN */}
               <textarea
                 name="catatan"
                 placeholder="Catatan (opsional)"
               />
 
-              {/* BUTTON */}
               <button
                 type="submit"
                 disabled={
@@ -524,7 +521,6 @@ export default function Payments() {
 
             </form>
 
-            {/* ERROR */}
             {errorMsg && (
 
               <p className="error">
@@ -532,7 +528,6 @@ export default function Payments() {
               </p>
             )}
 
-            {/* SUCCESS */}
             {success && (
 
               <p className="success">
@@ -550,7 +545,6 @@ export default function Payments() {
               Riwayat Pembayaran
             </h3>
 
-            {/* SEARCH */}
             <input
               type="text"
               placeholder="Cari jenis iuran..."
@@ -680,5 +674,13 @@ export default function Payments() {
       </div>
 
     </section>
+  );
+}
+
+export default function Payments() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PaymentsContent />
+    </Suspense>
   );
 }
