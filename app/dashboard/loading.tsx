@@ -5,7 +5,6 @@ export default function Loading() {
 
         <div className="payment-grid">
 
-          {/* LEFT */}
           <div className="payment-box skeleton-box">
 
             <div className="skeleton skeleton-title"></div>
@@ -19,7 +18,6 @@ export default function Loading() {
 
           </div>
 
-          {/* RIGHT */}
           <div className="history-box skeleton-box">
 
             <div className="skeleton skeleton-title"></div>

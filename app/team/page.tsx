@@ -2,7 +2,7 @@ export default function TeamPage() {
   const teamData = [
     {
       id: "1",
-      name: "Naila",
+      name: "Naila Khalishah Mahendra",
       role: "Frontend Developer",
       image: "https://i.pravatar.cc/150?img=5"
     },

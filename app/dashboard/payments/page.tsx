@@ -1,22 +1,9 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-  useOptimistic,
-  startTransition,
-  Suspense,
-} from "react";
-
+import { useEffect, useState, useOptimistic, startTransition } from "react";
 import { supabase } from "@/lib/supabase";
-
 import { z } from "zod";
-
-import {
-  useSearchParams,
-  usePathname,
-  useRouter,
-} from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 const paymentSchema = z.object({
   nama: z.string().min(
@@ -27,6 +14,11 @@ const paymentSchema = z.object({
   jenis: z.string().min(
     1,
     "Jenis iuran wajib dipilih"
+  ),
+
+  bulan: z.string().min(
+    1,
+    "Bulan pembayaran wajib dipilih"
   ),
 
   nominal: z
@@ -42,7 +34,7 @@ const paymentSchema = z.object({
   ),
 });
 
-function PaymentsContent() {
+export default function Payments() {
 
   const [loading, setLoading] =
     useState(false);
@@ -62,14 +54,10 @@ function PaymentsContent() {
   const [namaError, setNamaError] =
     useState("");
 
-  // ================= OPTIMISTIC UI =================
-
   const [
     optimisticData,
     setOptimisticData,
   ] = useOptimistic(data);
-
-  // ================= URL SEARCH =================
 
   const searchParams =
     useSearchParams();
@@ -82,8 +70,6 @@ function PaymentsContent() {
 
   const search =
     searchParams.get("search") || "";
-
-  // ================= HANDLE SEARCH =================
 
   const handleSearch = (
     term: string
@@ -113,8 +99,6 @@ function PaymentsContent() {
     );
   };
 
-  // ================= GET DATA =================
-
   const getPayments =
     async () => {
 
@@ -141,8 +125,6 @@ function PaymentsContent() {
     getPayments();
   }, []);
 
-  // ================= DELETE =================
-
   const handleDelete =
     async (
       id: number
@@ -156,7 +138,6 @@ function PaymentsContent() {
       if (!confirmDelete)
         return;
 
-      // optimistic ui
       startTransition(() => {
 
         setOptimisticData(
@@ -169,7 +150,6 @@ function PaymentsContent() {
 
       });
 
-      // delete database
       const { error } =
         await supabase
           .from("payments")
@@ -189,7 +169,6 @@ function PaymentsContent() {
         return;
       }
 
-      // update state utama
       setData((prev) =>
         prev.filter(
           (item) =>
@@ -197,8 +176,6 @@ function PaymentsContent() {
         )
       );
     };
-
-  // ================= SUBMIT =================
 
   const handleSubmit =
     async (
@@ -218,6 +195,9 @@ function PaymentsContent() {
       const jenis =
         form.jenis.value;
 
+      const bulan =
+        form.bulan.value;
+
       const nominal =
         form.nominal.value;
 
@@ -227,12 +207,12 @@ function PaymentsContent() {
       const catatan =
         form.catatan.value;
 
-      // VALIDASI ZOD
       const validation =
         paymentSchema.safeParse(
           {
             nama,
             jenis,
+            bulan,
             nominal:
               Number(
                 nominal
@@ -256,7 +236,6 @@ function PaymentsContent() {
 
       setLoading(true);
 
-      // INSERT DATABASE
       const { error } =
         await supabase
           .from(
@@ -267,6 +246,7 @@ function PaymentsContent() {
               nama,
               jenis_iuran:
                 jenis,
+              bulan,
               nominal:
                 Number(
                   nominal
@@ -306,9 +286,11 @@ function PaymentsContent() {
       getPayments();
 
       setTimeout(() => {
+
         setSuccess(
           false
         );
+
       }, 3000);
     };
 
@@ -324,13 +306,7 @@ function PaymentsContent() {
 
         <div className="payment-grid">
 
-          {/* ================= FORM ================= */}
-
           <div className="payment-box">
-
-            <h3>
-              Form Pembayaran
-            </h3>
 
             <form
               className="payment-form"
@@ -354,8 +330,7 @@ function PaymentsContent() {
                   if (
                     value.length >
                       0 &&
-                    value.length <
-                      3
+                    value.length < 3
                   ) {
 
                     setNamaError(
@@ -375,10 +350,9 @@ function PaymentsContent() {
               {namaError && (
 
                 <p className="input-error">
-                  {
-                    namaError
-                  }
+                  {namaError}
                 </p>
+
               )}
 
               <select
@@ -400,6 +374,65 @@ function PaymentsContent() {
 
                 <option value="Kas Warga">
                   Kas Warga
+                </option>
+
+              </select>
+
+              <select
+                name="bulan"
+                required
+              >
+
+                <option value="">
+                  Pilih Bulan Pembayaran
+                </option>
+
+                <option value="Januari 2026">
+                  Januari 2026
+                </option>
+
+                <option value="Februari 2026">
+                  Februari 2026
+                </option>
+
+                <option value="Maret 2026">
+                  Maret 2026
+                </option>
+
+                <option value="April 2026">
+                  April 2026
+                </option>
+
+                <option value="Mei 2026">
+                  Mei 2026
+                </option>
+
+                <option value="Juni 2026">
+                  Juni 2026
+                </option>
+
+                <option value="Juli 2026">
+                  Juli 2026
+                </option>
+
+                <option value="Agustus 2026">
+                  Agustus 2026
+                </option>
+
+                <option value="September 2026">
+                  September 2026
+                </option>
+
+                <option value="Oktober 2026">
+                  Oktober 2026
+                </option>
+
+                <option value="November 2026">
+                  November 2026
+                </option>
+
+                <option value="Desember 2026">
+                  Desember 2026
                 </option>
 
               </select>
@@ -457,6 +490,7 @@ function PaymentsContent() {
                   </p>
 
                 </div>
+
               )}
 
               {method ===
@@ -469,6 +503,7 @@ function PaymentsContent() {
                   </h4>
 
                   <div className="bank-item">
+
                     <span>
                       No Rek
                     </span>
@@ -476,9 +511,11 @@ function PaymentsContent() {
                     <strong>
                       1234567890
                     </strong>
+
                   </div>
 
                   <div className="bank-item">
+
                     <span>
                       Bank
                     </span>
@@ -486,9 +523,11 @@ function PaymentsContent() {
                     <strong>
                       BCA
                     </strong>
+
                   </div>
 
                   <div className="bank-item">
+
                     <span>
                       Atas Nama
                     </span>
@@ -496,9 +535,11 @@ function PaymentsContent() {
                     <strong>
                       Bendahara RT 05
                     </strong>
+
                   </div>
 
                 </div>
+
               )}
 
               <textarea
@@ -526,6 +567,7 @@ function PaymentsContent() {
               <p className="error">
                 {errorMsg}
               </p>
+
             )}
 
             {success && (
@@ -533,138 +575,7 @@ function PaymentsContent() {
               <p className="success">
                 ✅ Pembayaran berhasil dikirim!
               </p>
-            )}
 
-          </div>
-
-          {/* ================= HISTORY ================= */}
-
-          <div className="history-box">
-
-            <h3>
-              Riwayat Pembayaran
-            </h3>
-
-            <input
-              type="text"
-              placeholder="Cari jenis iuran..."
-              defaultValue={
-                search
-              }
-              onChange={(
-                e
-              ) =>
-                handleSearch(
-                  e.target
-                    .value
-                )
-              }
-              className="search-input"
-            />
-
-            {optimisticData.length ===
-            0 ? (
-
-              <p>
-                Belum ada data
-              </p>
-
-            ) : (
-
-              <div className="history-list">
-
-                {optimisticData
-                  .filter(
-                    (
-                      item
-                    ) =>
-                      item.jenis_iuran
-                        .toLowerCase()
-                        .includes(
-                          search.toLowerCase()
-                        )
-                  )
-                  .map(
-                    (
-                      item,
-                      i
-                    ) => (
-
-                      <div
-                        key={
-                          i
-                        }
-                        className="history-card"
-                      >
-
-                        <h4>
-                          {
-                            item.nama
-                          }
-                        </h4>
-
-                        <p>
-                          {
-                            item.jenis_iuran
-                          }
-                        </p>
-
-                        <p>
-                          {item.metode
-                            .toLowerCase()
-                            .replace(
-                              /\b\w/g,
-                              (
-                                c: string
-                              ) =>
-                                c.toUpperCase()
-                            )}
-                        </p>
-
-                        <p>
-                          Rp{" "}
-
-                          {new Intl.NumberFormat(
-                            "id-ID"
-                          ).format(
-                            item.nominal
-                          )}
-
-                        </p>
-
-                        {item.catatan && (
-
-                          <p>
-                            {
-                              item.catatan
-                            }
-                          </p>
-                        )}
-
-                        <span
-                          className={`badge ${item.status}`}
-                        >
-                          {
-                            item.status
-                          }
-                        </span>
-
-                        <button
-                          className="delete-btn"
-                          onClick={() =>
-                            handleDelete(
-                              item.id
-                            )
-                          }
-                        >
-                          Hapus
-                        </button>
-
-                      </div>
-                    )
-                  )}
-
-              </div>
             )}
 
           </div>
@@ -674,13 +585,5 @@ function PaymentsContent() {
       </div>
 
     </section>
-  );
-}
-
-export default function Payments() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <PaymentsContent />
-    </Suspense>
   );
 }

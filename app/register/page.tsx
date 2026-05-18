@@ -69,113 +69,122 @@ export default function RegisterPage() {
 
       <div className="login-box">
 
-        <div className="login-header">
+        <div className="login-left">
 
-          <div className="login-logo">
+          <img
+            src="/asset/logo.png"
+            alt="SIWarga"
+          />
 
-            <img
-              src="/asset/logo.png"
-              alt="SIWarga"
-            />
+          <h2>
+            Bergabung Bersama SIWarga
+          </h2>
 
-          </div>
+          <p>
+            Daftarkan akun Anda untuk menikmati
+            layanan pembayaran iuran warga yang
+            lebih praktis, cepat, dan transparan.
+          </p>
+
+        </div>
+
+        <div className="login-right">
 
           <div className="login-title">
 
-            <h2>Selamat Datang</h2>
+            <h2>
+              Register
+            </h2>
 
             <span>
-              Buat akun untuk mulai
-              menggunakan layanan
-              SIWarga dengan lebih
-              praktis.
+              Buat akun baru SIWarga
             </span>
 
           </div>
 
+          <form onSubmit={handleRegister}>
+
+            <input
+              type="text"
+              placeholder="Masukkan Username"
+              value={username}
+              onChange={(e) =>
+                setUsername(
+                  e.target.value
+                )
+              }
+              required
+            />
+
+            <input
+              type="text"
+              placeholder="Masukkan NIK / No KK"
+              value={nik}
+              onChange={(e) =>
+                setNik(
+                  e.target.value
+                )
+              }
+              required
+            />
+
+            <input
+              type="text"
+              placeholder="Masukkan Alamat"
+              value={alamat}
+              onChange={(e) =>
+                setAlamat(
+                  e.target.value
+                )
+              }
+              required
+            />
+
+            <input
+              type="text"
+              placeholder="Masukkan No Telepon"
+              value={telepon}
+              onChange={(e) =>
+                setTelepon(
+                  e.target.value
+                )
+              }
+              required
+            />
+
+            <input
+              type="password"
+              placeholder="Masukkan Password"
+              value={password}
+              onChange={(e) =>
+                setPassword(
+                  e.target.value
+                )
+              }
+              required
+            />
+
+            <button type="submit">
+
+              {loading
+                ? "Loading..."
+                : "Register"}
+
+            </button>
+
+          </form>
+
+          <p className="switch-auth">
+
+            Sudah punya akun?
+
+            <a href="/login">
+              Login
+            </a>
+
+          </p>
+
         </div>
-
-        <form onSubmit={handleRegister}>
-
-          <input
-            type="text"
-            placeholder="Masukkan Username"
-            value={username}
-            onChange={(e) =>
-              setUsername(
-                e.target.value
-              )
-            }
-            required
-          />
-
-          <input
-            type="text"
-            placeholder="Masukkan NIK / No KK"
-            value={nik}
-            onChange={(e) =>
-              setNik(
-                e.target.value
-              )
-            }
-            required
-          />
-
-          <input
-            type="text"
-            placeholder="Masukkan Alamat"
-            value={alamat}
-            onChange={(e) =>
-              setAlamat(
-                e.target.value
-              )
-            }
-            required
-          />
-
-          <input
-            type="text"
-            placeholder="Masukkan No Telepon"
-            value={telepon}
-            onChange={(e) =>
-              setTelepon(
-                e.target.value
-              )
-            }
-            required
-          />
-
-          <input
-            type="password"
-            placeholder="Masukkan Password"
-            value={password}
-            onChange={(e) =>
-              setPassword(
-                e.target.value
-              )
-            }
-            required
-          />
-
-          <button type="submit">
-
-            {loading
-              ? "Loading..."
-              : "Register"}
-
-          </button>
-
-        </form>
-
-        <p className="switch-auth">
-
-          Sudah punya akun?
-
-          <a href="/login">
-            Login
-          </a>
-
-        </p>
 
       </div>
 

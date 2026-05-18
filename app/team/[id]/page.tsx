@@ -10,7 +10,7 @@ export default async function TeamDetail({ params }: Props) {
   const teamData = [
     {
       id: "1",
-      name: "Naila",
+      name: "Naila Khalishah Mahendra",
       role: "Frontend Developer",
       image: "https://i.pravatar.cc/150?img=5"
     },
@@ -38,22 +38,17 @@ export default async function TeamDetail({ params }: Props) {
     <section className="team-detail-page">
       <div className="team-card">
 
-        {/* IMAGE */}
         <img src={member.image} alt={member.name} className="team-avatar" />
 
-        {/* NAME */}
         <h1>{member.name}</h1>
 
-        {/* ROLE */}
         <span className="team-role">{member.role}</span>
 
-        {/* DESC */}
         <p>
           Member dari tim SIWarga yang berkontribusi dalam pengembangan sistem digital
           untuk mempermudah pengelolaan iuran warga.
         </p>
 
-        {/* BUTTON */}
         <a href="/team" className="btn-primary">
           Kembali
         </a>
