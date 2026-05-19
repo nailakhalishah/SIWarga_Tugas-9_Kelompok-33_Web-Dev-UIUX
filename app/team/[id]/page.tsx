@@ -22,7 +22,7 @@ export default async function TeamDetail({ params }: Props) {
     },
     {
       id: "3",
-      name: "Yunus",
+      name: "Yunus Alfarizi",
       role: "Backend Developer",
       image: "https://i.pravatar.cc/150?img=3"
     },

@@ -34,7 +34,6 @@ export default function HistoryPage() {
 
   }, []);
 
-  // SEARCH BERDASARKAN JENIS IURAN
   const filteredData =
     data.filter((item) =>
       item.jenis_iuran

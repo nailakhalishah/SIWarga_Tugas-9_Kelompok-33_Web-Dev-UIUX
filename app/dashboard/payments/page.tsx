@@ -1,21 +1,9 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-  useOptimistic,
-  startTransition,
-} from "react";
-
+import { useEffect, useState, useOptimistic, startTransition } from "react";
 import { supabase } from "@/lib/supabase";
-
 import { z } from "zod";
-
-import {
-  useSearchParams,
-  usePathname,
-  useRouter,
-} from "next/navigation";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
 const paymentSchema = z.object({
   nama: z.string().min(
@@ -270,7 +258,6 @@ export default function Payments() {
               metode,
               catatan,
 
-              // STATUS LANGSUNG SUCCESS
               status:
                 "success",
             },
@@ -336,7 +323,6 @@ export default function Payments() {
 
       <div className="payment-layout">
 
-        {/* LEFT */}
         <div className="payment-box">
 
           <div className="box-title">
@@ -359,7 +345,6 @@ export default function Payments() {
             }
           >
 
-            {/* NAMA */}
             <div className="input-group">
 
               <label>
@@ -409,7 +394,6 @@ export default function Payments() {
 
             </div>
 
-            {/* JENIS */}
             <div className="input-group">
 
               <label>
@@ -441,7 +425,6 @@ export default function Payments() {
 
             </div>
 
-            {/* BULAN */}
             <div className="input-group">
 
               <label>
@@ -485,7 +468,6 @@ export default function Payments() {
 
             </div>
 
-            {/* NOMINAL */}
             <div className="input-group">
 
               <label>
@@ -501,7 +483,6 @@ export default function Payments() {
 
             </div>
 
-            {/* METODE */}
             <div className="input-group">
 
               <label>
@@ -535,7 +516,6 @@ export default function Payments() {
 
             </div>
 
-            {/* QRIS */}
             {method ===
               "Qris" && (
 
@@ -555,7 +535,6 @@ export default function Payments() {
 
             )}
 
-            {/* BANK */}
             {method ===
               "Transfer Bank" && (
 
@@ -601,7 +580,6 @@ export default function Payments() {
 
             )}
 
-            {/* CATATAN */}
             <div className="input-group">
 
               <label>
@@ -615,7 +593,6 @@ export default function Payments() {
 
             </div>
 
-            {/* BUTTON */}
             <button
               type="submit"
               disabled={
@@ -650,7 +627,6 @@ export default function Payments() {
 
         </div>
 
-        {/* RIGHT */}
         <div className="payment-summary">
 
           <h3>
