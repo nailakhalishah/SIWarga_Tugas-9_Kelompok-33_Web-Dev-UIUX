@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "./components/Navbar";
+import NavbarWrapper from "./components/NavbarWrapper";
 
 export const metadata: Metadata = {
   title: "SIWarga",
@@ -12,21 +12,28 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
+
     <html lang="id">
+
       <body>
 
-        <Navbar />
+        <NavbarWrapper />
 
         <main>
           {children}
         </main>
 
         <footer>
-          <p>© 2026 SIWarga. All rights reserved.</p>
+          <p>
+            © 2026 SIWarga.
+            All rights reserved.
+          </p>
         </footer>
 
       </body>
+
     </html>
   );
 }

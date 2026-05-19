@@ -1,9 +1,21 @@
 "use client";
 
-import { useEffect, useState, useOptimistic, startTransition } from "react";
+import {
+  useEffect,
+  useState,
+  useOptimistic,
+  startTransition,
+} from "react";
+
 import { supabase } from "@/lib/supabase";
+
 import { z } from "zod";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+
+import {
+  useSearchParams,
+  usePathname,
+  useRouter,
+} from "next/navigation";
 
 const paymentSchema = z.object({
   nama: z.string().min(
@@ -117,12 +129,16 @@ export default function Payments() {
         );
 
       if (!error) {
+
         setData(data || []);
+
       }
     };
 
   useEffect(() => {
+
     getPayments();
+
   }, []);
 
   const handleDelete =
@@ -253,8 +269,10 @@ export default function Payments() {
                 ),
               metode,
               catatan,
+
+              // STATUS LANGSUNG SUCCESS
               status:
-                "pending",
+                "success",
             },
           ]);
 
@@ -298,30 +316,61 @@ export default function Payments() {
 
     <section className="payment-page">
 
-      <div className="container">
+      <div className="payment-header">
 
-        <h2 className="section-title">
-          Pembayaran Iuran
-        </h2>
+        <div>
 
-        <div className="payment-grid">
+          <h2>
+            Pembayaran Iuran
+          </h2>
 
-          <div className="payment-box">
+          <p>
+            Lengkapi data pembayaran
+            iuran warga dengan mudah
+            dan cepat.
+          </p>
 
-            <form
-              className="payment-form"
-              onSubmit={
-                handleSubmit
-              }
-            >
+        </div>
+
+      </div>
+
+      <div className="payment-layout">
+
+        {/* LEFT */}
+        <div className="payment-box">
+
+          <div className="box-title">
+
+            <h3>
+              Form Pembayaran
+            </h3>
+
+            <span>
+              Isi data pembayaran
+              dengan benar
+            </span>
+
+          </div>
+
+          <form
+            className="payment-form"
+            onSubmit={
+              handleSubmit
+            }
+          >
+
+            {/* NAMA */}
+            <div className="input-group">
+
+              <label>
+                Nama Lengkap
+              </label>
 
               <input
                 name="nama"
                 type="text"
-                placeholder="Nama Lengkap"
-                onChange={(
-                  e
-                ) => {
+                placeholder="Masukkan nama lengkap"
+                onChange={(e) => {
 
                   const value =
                     e.target
@@ -330,7 +379,8 @@ export default function Payments() {
                   if (
                     value.length >
                       0 &&
-                    value.length < 3
+                    value.length <
+                      3
                   ) {
 
                     setNamaError(
@@ -350,10 +400,21 @@ export default function Payments() {
               {namaError && (
 
                 <p className="input-error">
-                  {namaError}
+                  {
+                    namaError
+                  }
                 </p>
 
               )}
+
+            </div>
+
+            {/* JENIS */}
+            <div className="input-group">
+
+              <label>
+                Jenis Iuran
+              </label>
 
               <select
                 name="jenis"
@@ -377,6 +438,15 @@ export default function Payments() {
                 </option>
 
               </select>
+
+            </div>
+
+            {/* BULAN */}
+            <div className="input-group">
+
+              <label>
+                Bulan Pembayaran
+              </label>
 
               <select
                 name="bulan"
@@ -411,45 +481,37 @@ export default function Payments() {
                   Juni 2026
                 </option>
 
-                <option value="Juli 2026">
-                  Juli 2026
-                </option>
-
-                <option value="Agustus 2026">
-                  Agustus 2026
-                </option>
-
-                <option value="September 2026">
-                  September 2026
-                </option>
-
-                <option value="Oktober 2026">
-                  Oktober 2026
-                </option>
-
-                <option value="November 2026">
-                  November 2026
-                </option>
-
-                <option value="Desember 2026">
-                  Desember 2026
-                </option>
-
               </select>
+
+            </div>
+
+            {/* NOMINAL */}
+            <div className="input-group">
+
+              <label>
+                Nominal Pembayaran
+              </label>
 
               <input
                 name="nominal"
                 type="number"
-                placeholder="Nominal (Rp)"
+                placeholder="Masukkan nominal"
                 required
               />
+
+            </div>
+
+            {/* METODE */}
+            <div className="input-group">
+
+              <label>
+                Metode Pembayaran
+              </label>
 
               <select
                 required
                 value={method}
-                onChange={(
-                  e
-                ) =>
+                onChange={(e) =>
                   setMethod(
                     e.target
                       .value
@@ -462,7 +524,7 @@ export default function Payments() {
                 </option>
 
                 <option value="Qris">
-                  Qris
+                  QRIS
                 </option>
 
                 <option value="Transfer Bank">
@@ -471,112 +533,182 @@ export default function Payments() {
 
               </select>
 
-              {method ===
-                "Qris" && (
+            </div>
 
-                <div className="payment-info qris">
+            {/* QRIS */}
+            {method ===
+              "Qris" && (
 
-                  <h4>
-                    QRIS Payment
-                  </h4>
+              <div className="payment-info qris">
 
-                  <img
-                    src="/asset/Qris.png"
-                    alt="QRIS"
-                  />
+                <img
+                  src="/asset/Qris.png"
+                  alt="QRIS"
+                />
 
-                  <p>
-                    Scan QR untuk melakukan pembayaran
-                  </p>
+                <p>
+                  Scan QR untuk
+                  pembayaran
+                </p>
 
-                </div>
+              </div>
 
-              )}
+            )}
 
-              {method ===
-                "Transfer Bank" && (
+            {/* BANK */}
+            {method ===
+              "Transfer Bank" && (
 
-                <div className="payment-info bank">
+              <div className="payment-info bank">
 
-                  <h4>
-                    Transfer Bank
-                  </h4>
+                <div className="bank-item">
 
-                  <div className="bank-item">
+                  <span>
+                    No Rekening
+                  </span>
 
-                    <span>
-                      No Rek
-                    </span>
-
-                    <strong>
-                      1234567890
-                    </strong>
-
-                  </div>
-
-                  <div className="bank-item">
-
-                    <span>
-                      Bank
-                    </span>
-
-                    <strong>
-                      BCA
-                    </strong>
-
-                  </div>
-
-                  <div className="bank-item">
-
-                    <span>
-                      Atas Nama
-                    </span>
-
-                    <strong>
-                      Bendahara RT 05
-                    </strong>
-
-                  </div>
+                  <strong>
+                    1234567890
+                  </strong>
 
                 </div>
 
-              )}
+                <div className="bank-item">
+
+                  <span>
+                    Bank
+                  </span>
+
+                  <strong>
+                    BCA
+                  </strong>
+
+                </div>
+
+                <div className="bank-item">
+
+                  <span>
+                    Atas Nama
+                  </span>
+
+                  <strong>
+                    Bendahara RT 05
+                  </strong>
+
+                </div>
+
+              </div>
+
+            )}
+
+            {/* CATATAN */}
+            <div className="input-group">
+
+              <label>
+                Catatan
+              </label>
 
               <textarea
                 name="catatan"
-                placeholder="Catatan (opsional)"
+                placeholder="Tambahkan catatan..."
               />
 
-              <button
-                type="submit"
-                disabled={
-                  loading
-                }
-              >
+            </div>
 
-                {loading
-                  ? "Mengirim..."
-                  : "Bayar Sekarang"}
+            {/* BUTTON */}
+            <button
+              type="submit"
+              disabled={
+                loading
+              }
+            >
 
-              </button>
+              {loading
+                ? "Mengirim..."
+                : "Bayar Sekarang"}
 
-            </form>
+            </button>
 
-            {errorMsg && (
+          </form>
 
-              <p className="error">
-                {errorMsg}
-              </p>
+          {errorMsg && (
 
-            )}
+            <p className="error">
+              {errorMsg}
+            </p>
 
-            {success && (
+          )}
 
-              <p className="success">
-                ✅ Pembayaran berhasil dikirim!
-              </p>
+          {success && (
 
-            )}
+            <p className="success">
+              ✅ Pembayaran berhasil
+              dikirim!
+            </p>
+
+          )}
+
+        </div>
+
+        {/* RIGHT */}
+        <div className="payment-summary">
+
+          <h3>
+            Informasi Iuran
+          </h3>
+
+          <div className="summary-card">
+
+            <div className="summary-item">
+
+              <span>
+                Iuran Kebersihan
+              </span>
+
+              <strong>
+                Rp 50.000
+              </strong>
+
+            </div>
+
+            <div className="summary-item">
+
+              <span>
+                Kas Warga
+              </span>
+
+              <strong>
+                Rp 10.000
+              </strong>
+
+            </div>
+
+            <div className="summary-item">
+
+              <span>
+                Iuran Kematian
+              </span>
+
+              <strong>
+                Rp 10.000
+              </strong>
+
+            </div>
+
+          </div>
+
+          <div className="payment-note">
+
+            <h4>
+              Catatan Pembayaran
+            </h4>
+
+            <p>
+              Pastikan nominal dan
+              metode pembayaran
+              sudah sesuai sebelum
+              melakukan transaksi.
+            </p>
 
           </div>
 

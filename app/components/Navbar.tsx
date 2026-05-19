@@ -6,13 +6,8 @@ import { useEffect, useState } from "react";
 
 export default function Navbar() {
 
-  const pathname = usePathname();
-
-  if (
-    pathname.startsWith("/dashboard")
-  ) {
-    return null;
-  }
+  const pathname =
+    usePathname();
 
   const [username, setUsername] =
     useState("");
@@ -32,8 +27,23 @@ export default function Navbar() {
 
   }, []);
 
-  const isActive = (path: string) =>
-    pathname === path ? "active" : "";
+  const isActive = (
+    path: string
+  ) =>
+    pathname === path
+      ? "active"
+      : "";
+
+  const hideNavbar =
+    pathname.startsWith(
+      "/dashboard"
+    );
+
+  if (hideNavbar) {
+
+    return null;
+
+  }
 
   return (
 

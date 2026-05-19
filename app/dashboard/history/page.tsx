@@ -8,6 +8,9 @@ export default function HistoryPage() {
   const [data, setData] =
     useState<any[]>([]);
 
+  const [search, setSearch] =
+    useState("");
+
   const getPayments = async () => {
 
     const { data, error } =
@@ -31,62 +34,146 @@ export default function HistoryPage() {
 
   }, []);
 
+  // SEARCH BERDASARKAN JENIS IURAN
+  const filteredData =
+    data.filter((item) =>
+      item.jenis_iuran
+        ?.toLowerCase()
+        .includes(search.toLowerCase())
+    );
+
   return (
 
     <section className="history-page">
 
-      <h1>
-        Riwayat Pembayaran
-      </h1>
+      <div className="history-header">
 
-      {data.length === 0 ? (
+        <div>
 
-        <p>
-          Belum ada data pembayaran
-        </p>
+          <h1>
+            Riwayat Pembayaran
+          </h1>
+
+          <p>
+            Daftar seluruh transaksi pembayaran warga
+          </p>
+
+        </div>
+
+        <input
+          type="text"
+          placeholder="Cari jenis iuran..."
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
+          className="history-search"
+        />
+
+      </div>
+
+      {filteredData.length === 0 ? (
+
+        <div className="empty-history">
+
+          <h3>
+            Data tidak ditemukan
+          </h3>
+
+          <p>
+            Belum ada riwayat pembayaran
+          </p>
+
+        </div>
 
       ) : (
 
         <div className="history-list">
 
-          {data.map((item, i) => (
+          {filteredData.map((item, i) => (
 
             <div
               key={i}
               className="history-card"
             >
 
-              <h3>
-                {item.nama}
-              </h3>
+              <div className="history-top">
 
-              <p>
-                {item.jenis_iuran}
-              </p>
+                <div>
 
-              <p>
-                {item.metode}
-              </p>
+                  <h3>
+                    {item.nama}
+                  </h3>
 
-              <p>
-                {item.bulan}
-              </p>
+                  <span className="history-date">
+                    {item.bulan}
+                  </span>
 
-              <p>
+                </div>
 
-                Rp{" "}
+                <div
+                  className={`status ${item.status}`}
+                >
 
-                {new Intl.NumberFormat(
-                  "id-ID"
-                ).format(item.nominal)}
+                  {item.status || "Success"}
 
-              </p>
+                </div>
+
+              </div>
+
+              <div className="history-detail">
+
+                <div className="detail-row">
+
+                  <span>
+                    Jenis Iuran
+                  </span>
+
+                  <strong>
+                    {item.jenis_iuran}
+                  </strong>
+
+                </div>
+
+                <div className="detail-row">
+
+                  <span>
+                    Metode
+                  </span>
+
+                  <strong>
+                    {item.metode}
+                  </strong>
+
+                </div>
+
+                <div className="detail-row">
+
+                  <span>
+                    Nominal
+                  </span>
+
+                  <strong className="price">
+
+                    Rp{" "}
+
+                    {new Intl.NumberFormat(
+                      "id-ID"
+                    ).format(item.nominal)}
+
+                  </strong>
+
+                </div>
+
+              </div>
 
               {item.catatan && (
 
-                <span>
+                <div className="history-note">
+
                   {item.catatan}
-                </span>
+
+                </div>
 
               )}
 

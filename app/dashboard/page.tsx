@@ -1,34 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function DashboardPage() {
 
-  const bulanIndonesia = [
-    "Januari",
-    "Februari",
-    "Maret",
-    "April",
-    "Mei",
-    "Juni",
-    "Juli",
-    "Agustus",
-    "September",
-    "Oktober",
-    "November",
-    "Desember"
-  ];
-
-  const currentDate = new Date();
-
-  const currentMonthIndex =
-    currentDate.getMonth();
-
-  const currentYear =
-    currentDate.getFullYear();
+  const [data, setData] =
+    useState<any[]>([]);
 
   const [selectedMonth, setSelectedMonth] =
-    useState(currentMonthIndex);
+    useState("Mei 2026");
+
+  const getPayments =
+    async () => {
+
+      const {
+        data,
+        error,
+      } = await supabase
+        .from("payments")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending:
+              false,
+          }
+        );
+
+      if (!error) {
+
+        setData(data || []);
+
+      }
+    };
+
+  useEffect(() => {
+
+    getPayments();
+
+  }, []);
+
+  const filteredPayments =
+    data.filter(
+      (item) =>
+        item.bulan ===
+        selectedMonth
+    );
+
+  const totalPayment =
+    filteredPayments.reduce(
+      (acc, item) =>
+        acc + item.nominal,
+      0
+    );
+
+  const totalTransaction =
+    filteredPayments.length;
 
   return (
 
@@ -38,246 +66,269 @@ export default function DashboardPage() {
 
         <div>
 
-          <h2>
+          <h1>
             Dashboard SIWarga 👋
-          </h2>
+          </h1>
 
           <p>
-            Pantau pembayaran iuran warga
-            dengan lebih mudah dan cepat.
+            Pantau pembayaran
+            iuran warga dengan
+            lebih mudah dan cepat.
           </p>
 
         </div>
 
         <select
-          className="dashboard-select"
-          value={selectedMonth}
+          value={
+            selectedMonth
+          }
           onChange={(e) =>
             setSelectedMonth(
-              Number(e.target.value)
+              e.target.value
             )
           }
+          className="month-filter"
         >
 
-          {bulanIndonesia.map(
-            (bulan, index) => (
+          <option value="Januari 2026">
+            Januari 2026
+          </option>
 
-              <option
-                key={index}
-                value={index}
-              >
-                {bulan} {currentYear}
-              </option>
+          <option value="Februari 2026">
+            Februari 2026
+          </option>
 
-            )
-          )}
+          <option value="Maret 2026">
+            Maret 2026
+          </option>
+
+          <option value="April 2026">
+            April 2026
+          </option>
+
+          <option value="Mei 2026">
+            Mei 2026
+          </option>
+
+          <option value="Juni 2026">
+            Juni 2026
+          </option>
+
+          <option value="Juli 2026">
+            Juli 2026
+          </option>
+
+          <option value="Agustus 2026">
+            Agustus 2026
+          </option>
+
+          <option value="September 2026">
+            September 2026
+          </option>
+
+          <option value="Oktober 2026">
+            Oktober 2026
+          </option>
+
+          <option value="November 2026">
+            November 2026
+          </option>
+
+          <option value="Desember 2026">
+            Desember 2026
+          </option>
 
         </select>
 
       </div>
 
-      <div className="summary-grid">
+      <div className="dashboard-cards">
 
-        <div className="summary-card">
+        <div className="dashboard-card">
 
-          <div className="summary-top">
+          <h4>
+            Total Iuran Bulan Ini
+          </h4>
 
-            <span>
-              Total Iuran Bulan Ini
-            </span>
+          <h2>
 
-            <div className="summary-icon">
-              💰
-            </div>
+            Rp{" "}
 
-          </div>
+            {new Intl.NumberFormat(
+              "id-ID"
+            ).format(
+              totalPayment
+            )}
 
-          <h3>
-            Rp70.000
-          </h3>
+          </h2>
 
           <p>
-            Total seluruh pembayaran
-            bulan {bulanIndonesia[selectedMonth]}
+            Total pembayaran
+            bulan {
+              selectedMonth
+            }
           </p>
 
         </div>
 
-        <div className="summary-card">
+        <div className="dashboard-card">
 
-          <div className="summary-top">
+          <h4>
+            Status Pembayaran
+          </h4>
 
-            <span>
-              Status Pembayaran
-            </span>
+          <h2>
 
-            <div className="summary-icon">
-              ✅
-            </div>
+            {filteredPayments.length >
+            0
+              ? "Lunas"
+              : "Belum Bayar"}
 
-          </div>
-
-          <h3>
-            Lunas
-          </h3>
+          </h2>
 
           <p>
-            Semua iuran sudah dibayar
+
+            {filteredPayments.length >
+            0
+              ? "Pembayaran berhasil dilakukan"
+              : "Belum ada pembayaran"}
+
           </p>
 
         </div>
 
-        <div className="summary-card">
+        <div className="dashboard-card">
 
-          <div className="summary-top">
+          <h4>
+            Jumlah Transaksi
+          </h4>
 
-            <span>
-              Jumlah Transaksi
-            </span>
-
-            <div className="summary-icon">
-              📄
-            </div>
-
-          </div>
-
-          <h3>
-            3
-          </h3>
+          <h2>
+            {
+              totalTransaction
+            }
+          </h2>
 
           <p>
-            Riwayat pembayaran bulan{" "}
-            {bulanIndonesia[selectedMonth]}
+            Riwayat pembayaran
+            bulan {
+              selectedMonth
+            }
           </p>
 
         </div>
 
       </div>
 
-      <div className="dashboard-payment">
+      <div className="dashboard-payment-list">
 
-        <div className="dashboard-title">
+        <div className="dashboard-section-title">
 
           <h3>
             Rincian Pembayaran
           </h3>
 
-        </div>
-
-        <div className="payment-list">
-
-          <div className="payment-item">
-
-            <div className="payment-left">
-
-              <div className="payment-badge green">
-                K
-              </div>
-
-              <div>
-
-                <h4>
-                  Iuran Kebersihan
-                </h4>
-
-                <span>
-                  Pembayaran bulan{" "}
-                  {bulanIndonesia[selectedMonth]}
-                </span>
-
-              </div>
-
-            </div>
-
-            <div className="payment-right">
-
-              <h5>
-                Rp50.000
-              </h5>
-
-              <span className="status success">
-                Lunas
-              </span>
-
-            </div>
-
-          </div>
-
-          <div className="payment-item">
-
-            <div className="payment-left">
-
-              <div className="payment-badge blue">
-                K
-              </div>
-
-              <div>
-
-                <h4>
-                  Kas Warga
-                </h4>
-
-                <span>
-                  Pembayaran bulan{" "}
-                  {bulanIndonesia[selectedMonth]}
-                </span>
-
-              </div>
-
-            </div>
-
-            <div className="payment-right">
-
-              <h5>
-                Rp10.000
-              </h5>
-
-              <span className="status pending">
-                Pending
-              </span>
-
-            </div>
-
-          </div>
-
-          <div className="payment-item">
-
-            <div className="payment-left">
-
-              <div className="payment-badge red">
-                K
-              </div>
-
-              <div>
-
-                <h4>
-                  Iuran Kematian
-                </h4>
-
-                <span>
-                  Pembayaran bulan{" "}
-                  {bulanIndonesia[selectedMonth]}
-                </span>
-
-              </div>
-
-            </div>
-
-            <div className="payment-right">
-
-              <h5>
-                Rp10.000
-              </h5>
-
-              <span className="status success">
-                Lunas
-              </span>
-
-            </div>
-
-          </div>
+          <span>
+            {
+              selectedMonth
+            }
+          </span>
 
         </div>
+
+        {filteredPayments.length ===
+        0 ? (
+
+          <div className="empty-payment">
+
+            <p>
+              Belum ada
+              pembayaran
+              di bulan ini
+            </p>
+
+          </div>
+
+        ) : (
+
+          filteredPayments.map(
+            (
+              item,
+              index
+            ) => (
+
+              <div
+                className="payment-item"
+                key={index}
+              >
+
+                <div className="payment-left">
+
+                  <div
+                    className={`payment-badge ${
+                      item.jenis_iuran ===
+                      "Kebersihan"
+                        ? "green"
+                        : item.jenis_iuran ===
+                          "Kas Warga"
+                        ? "blue"
+                        : "red"
+                    }`}
+                  >
+
+                    {item.jenis_iuran.charAt(
+                      0
+                    )}
+
+                  </div>
+
+                  <div>
+
+                    <h4>
+                      Iuran{" "}
+                      {
+                        item.jenis_iuran
+                      }
+                    </h4>
+
+                    <span>
+                      Dibayar oleh{" "}
+                      {
+                        item.nama
+                      }
+                    </span>
+
+                  </div>
+
+                </div>
+
+                <div className="payment-right">
+
+                  <h5>
+
+                    Rp{" "}
+
+                    {new Intl.NumberFormat(
+                      "id-ID"
+                    ).format(
+                      item.nominal
+                    )}
+
+                  </h5>
+
+                  <div className="status success">
+
+                    Lunas
+
+                  </div>
+
+                </div>
+
+              </div>
+            )
+          )
+
+        )}
 
       </div>
 
